@@ -20,7 +20,7 @@ struct PrimeView: View {
 struct PrimeDisplay {
   let numInterval = 1000.0;
   let lineWidth = 1.0
-  let cellWidth = 38.0
+  let cellWidth = 40.0
 }
 let primeDisplay = PrimeDisplay();
 
@@ -33,6 +33,7 @@ struct PrimeCountView: View {
   
   var body: some View {
     VStack {
+      controlsTop()
       Canvas { context, size in
         //      print("size", size)
         let (cellCount,primeCount, nx, ny) = drawGridCountPrimes(
@@ -47,14 +48,25 @@ struct PrimeCountView: View {
           self.ny = ny
         }
       }
-      controls()
+      controlsBottom()
     }
     .onAppear {
       //      print("onAppear countUI", countUI)
     }
   }
   
-  func controls() -> some View {
+  func controlsTop() -> some View {
+    HStack {
+      Text("grid \(nx)x\(ny)=\(cellCount)")
+      Text("n primes:\(primeCount)")
+      if cellCount != 0 {
+        let density = Double(primeCount)/Double(cellCount);
+        Text(String(format: "d: %.2f", density))
+      }
+    }
+  }
+  
+  func controlsBottom() -> some View {
     VStack {
       Text("Start: \(Int(startNum))")
       HStack {
@@ -66,14 +78,6 @@ struct PrimeCountView: View {
         }
         Button("Zero") {
           startNum = 0
-        }
-      }
-      HStack {
-        Text("\(nx)x\(ny):\(cellCount)")
-        Text("n:\(primeCount)")
-        if cellCount != 0 {
-          let density = Double(primeCount)/Double(cellCount);
-          Text(String(format: "d: %.2f", density))
         }
       }
     }

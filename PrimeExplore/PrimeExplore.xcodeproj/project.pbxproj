@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AB153DEF306999EE0081D9CD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AB153DEE306999EE0081D9CD /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		AB153D47306837470081D9CD /* PrimeExplore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrimeExplore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB153DEE306999EE0081D9CD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +37,7 @@
 		AB153D3E306837470081D9CD = {
 			isa = PBXGroup;
 			children = (
+				AB153DEE306999EE0081D9CD /* README.md */,
 				AB153D49306837470081D9CD /* PrimeExplore */,
 				AB153D48306837470081D9CD /* Products */,
 			);
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB153DEF306999EE0081D9CD /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
