@@ -69,15 +69,15 @@ struct PrimeCountView: View {
         }
       }
       HStack {
-        Text("\(nx)x\(ny) = \(cellCount)")
-        Text("nprimes:\(primeCount)")
+        Text("\(nx)x\(ny):\(cellCount)")
+        Text("n:\(primeCount)")
         if cellCount != 0 {
           let density = Double(primeCount)/Double(cellCount);
-          Text(String(format: "density: %.2f", density))
+          Text(String(format: "d: %.2f", density))
         }
       }
-      
     }
+    .font(.system(size: 28))
   }
   
   func drawGridCountPrimes(
