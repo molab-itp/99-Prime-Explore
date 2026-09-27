@@ -33,7 +33,6 @@ struct PrimeCountView: View {
   
   var body: some View {
     VStack {
-      controls()
       Canvas { context, size in
         //      print("size", size)
         let (cellCount,primeCount, nx, ny) = drawGridCountPrimes(
@@ -48,6 +47,7 @@ struct PrimeCountView: View {
           self.ny = ny
         }
       }
+      controls()
     }
     .onAppear {
       //      print("onAppear countUI", countUI)
