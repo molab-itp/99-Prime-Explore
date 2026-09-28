@@ -26,6 +26,8 @@ struct PrimeDisplay {
 }
 let primeDisplay = PrimeDisplay();
 
+let animInterval = 0.5; // update interval in seconds
+
 struct PrimeCountView: View {
   @State private var startNum = 0.0
   @State var cellCount: Int = 0
@@ -33,27 +35,42 @@ struct PrimeCountView: View {
   @State var nx: Int = 0
   @State var ny: Int = 0
   
+  @State private var autoStep = false
+  @State var lastUpdateDate: Date = .distantPast
+  
   var body: some View {
-    VStack {
-      controlsTop()
-      Canvas { context, size in
-        //      print("size", size)
-        let (cellCount,primeCount, nx, ny) = drawGridCountPrimes(
-          context: context,
-          size: size,
-          startNum: startNum )
-        Task {
-          // must defer setting with Task
-          self.cellCount = cellCount
-          self.primeCount = primeCount
-          self.nx = nx
-          self.ny = ny
+    TimelineView(.animation(minimumInterval: animInterval)) { timeline in
+      VStack {
+        controlsTop()
+        Canvas { context, size in
+          //      print("size", size)
+          let (cellCount,primeCount, nx, ny) = drawGridCountPrimes(
+            context: context,
+            size: size,
+            startNum: startNum )
+          let seconds = timeline.date.timeIntervalSince(lastUpdateDate)
+          if seconds > animInterval {
+            print(timeline.date)
+            Task {
+              self.lastUpdateDate = timeline.date
+              // must defer setting with Task
+              self.cellCount = cellCount
+              self.primeCount = primeCount
+              self.nx = nx
+              self.ny = ny
+              if autoStep {
+                stepAction()
+              }
+            }
+          }
+          // must read to trigger update
+          _ = timeline.date
         }
+        controlsBottom()
       }
-      controlsBottom()
-    }
-    .onAppear {
-      //      print("onAppear countUI", countUI)
+      .onAppear {
+        //      print("onAppear countUI", countUI)
+      }
     }
   }
   
@@ -67,8 +84,21 @@ struct PrimeCountView: View {
           Text(String(format: "d: %.2f", density))
         }
       }
-      Text("Start: \(Int(startNum))")
+      HStack {
+        Picker("Auto Step", selection: $autoStep) {
+          Text("Off").tag(false)
+          Text("On").tag(true)
+        }
+        .pickerStyle(.segmented)
+        .frame(width: 100)
+        Spacer()
+        Text("Start: \(Int(startNum))")
+      }
     }
+  }
+  
+  func stepAction() {
+    startNum += Double(cellCount);
   }
   
   func controlsBottom() -> some View {
@@ -83,7 +113,7 @@ struct PrimeCountView: View {
         }
         Button("+Step") {
 //          startNum += primeDisplay.numInterval
-          startNum += Double(cellCount);
+          stepAction()
         }
       }
     }
@@ -104,26 +134,31 @@ struct PrimeCountView: View {
 //      let cellWidth = primeDisplay.cellWidth
       
       var primes: [Int] = []
+      var primeSet: Set<Int> = []
       let start = Int(startNum)
       let stop = start+cellCount
       for num in start..<stop {
         if isPrime(num) {
           primes.append(num)
+          primeSet.insert(num)
           primeCount += 1
           let num0 = num - start - 1
           var x = Double(num0 % nx) * cellWidth;
           var y = Double(num0 / nx) * cellWidth
           x += xmargin
           y += ymargin
-          
+          var fillColor: Color = .black
+          if primeSet.contains(num-2) {
+            fillColor = .red;
+          }
           let rect = CGRect(x: x, y: y-lineWidth/2,
                             width:cellWidth, height:cellWidth)
           let dotPath = Path(ellipseIn: rect)
-          context.fill(dotPath, with: .color(.black) )
+          context.fill(dotPath, with: .color(fillColor) )
         }
       }
       //    print("primes", primes)
-      print("start", start, "stop", stop, "primeCount", primeCount)
+//      print("start", start, "stop", stop, "primeCount", primeCount)
       return (cellCount, primeCount, nx, ny)
     }
   
@@ -187,15 +222,7 @@ struct PrimeCountView: View {
       ny -= 1;
       let cellCount = nx * ny;
       
-      print("drawGrid cellCount", cellCount)
-      // Draw centered cell
-      //  x = (Double(nx-1) / 2.0).rounded(.down) * cellWidth // 4.0 * cell
-      //  y = (Double(ny-1) / 2.0).rounded(.down) * cellWidth // 4.0 * cell
-      //  x += xmargin
-      //  y += ymargin
-      //  let rt = CGRect(x: x, y:y-lineWidth/2, width:cellWidth, height:cellWidth)
-      //  let ellipsePath = Path(ellipseIn: rt)
-      //  context.fill(ellipsePath, with: .color(.black) )
+//      print("drawGrid cellCount", cellCount)
       
       return (cellCount, xmargin, ymargin, nx, ny, cellWidth);
     }
