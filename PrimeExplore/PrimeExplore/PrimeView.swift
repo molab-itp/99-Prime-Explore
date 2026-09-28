@@ -20,7 +20,9 @@ struct PrimeView: View {
 struct PrimeDisplay {
   let numInterval = 1000.0;
   let lineWidth = 1.0
+  let ncell = 20.0
   let cellWidth = 40.0
+  let margin =  4.0
 }
 let primeDisplay = PrimeDisplay();
 
@@ -56,31 +58,36 @@ struct PrimeCountView: View {
   }
   
   func controlsTop() -> some View {
-    HStack {
-      Text("grid \(nx)x\(ny)=\(cellCount)")
-      Text("n primes:\(primeCount)")
-      if cellCount != 0 {
-        let density = Double(primeCount)/Double(cellCount);
-        Text(String(format: "d: %.2f", density))
+    VStack {
+      HStack {
+        Text("grid \(nx)x\(ny)=\(cellCount)")
+        Text("n primes:\(primeCount)")
+        if cellCount != 0 {
+          let density = Double(primeCount)/Double(cellCount);
+          Text(String(format: "d: %.2f", density))
+        }
       }
+      Text("Start: \(Int(startNum))")
     }
   }
   
   func controlsBottom() -> some View {
     VStack {
-      Text("Start: \(Int(startNum))")
       HStack {
-        Button("+Step") {
-          startNum += primeDisplay.numInterval
-        }
         Button("-Step") {
-          startNum -= primeDisplay.numInterval
+//          startNum -= primeDisplay.numInterval
+          startNum -= Double(cellCount);
         }
         Button("Zero") {
           startNum = 0
         }
+        Button("+Step") {
+//          startNum += primeDisplay.numInterval
+          startNum += Double(cellCount);
+        }
       }
     }
+    .buttonStyle(.bordered)
     .font(.system(size: 28))
   }
   
@@ -90,11 +97,11 @@ struct PrimeCountView: View {
     startNum: Double) -> (Int,Int,Int,Int) {
       
       var primeCount = 0
-      let (cellCount,xmargin,ymargin,nx,ny) =
+      let (cellCount,xmargin,ymargin,nx,ny, cellWidth) =
       drawGrid(context: context, size: size)
       
       let lineWidth = primeDisplay.lineWidth
-      let cellWidth = primeDisplay.cellWidth
+//      let cellWidth = primeDisplay.cellWidth
       
       var primes: [Int] = []
       let start = Int(startNum)
@@ -137,10 +144,15 @@ struct PrimeCountView: View {
   // cellCount depends on size
   func drawGrid(
     context :GraphicsContext,
-    size :CGSize ) -> (Int,Double,Double,Int,Int) {
+    size :CGSize ) -> (Int,Double,Double,Int,Int,Double) {
       
       let lineWidth = primeDisplay.lineWidth
-      let cellWidth = primeDisplay.cellWidth
+      var cellWidth = primeDisplay.cellWidth
+      let margin = primeDisplay.margin;
+      let ncell = primeDisplay.ncell
+      if ncell != 0 {
+        cellWidth = Double(Int(size.width - margin*2.0)/Int(ncell))
+      }
       // grid columns
       var x = 0.0
       var nx = 0
@@ -185,7 +197,7 @@ struct PrimeCountView: View {
       //  let ellipsePath = Path(ellipseIn: rt)
       //  context.fill(ellipsePath, with: .color(.black) )
       
-      return (cellCount, xmargin, ymargin, nx, ny);
+      return (cellCount, xmargin, ymargin, nx, ny, cellWidth);
     }
 }
   
