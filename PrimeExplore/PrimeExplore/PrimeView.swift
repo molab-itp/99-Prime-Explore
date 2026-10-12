@@ -22,7 +22,7 @@ struct PrimeDisplay {
   let lineWidth = 1.0
   let ncell = 20.0
   let cellWidth = 40.0
-  let margin =  4.0
+  let margin =  0.0 // Keep at zero
 }
 let primeDisplay = PrimeDisplay();
 
@@ -85,14 +85,14 @@ struct PrimeCountView: View {
         }
       }
       HStack {
+        Text("Start: \(Int(startNum))")
+        Spacer()
         Picker("Auto Step", selection: $autoStep) {
           Text("Off").tag(false)
           Text("On").tag(true)
         }
         .pickerStyle(.segmented)
         .frame(width: 100)
-        Spacer()
-        Text("Start: \(Int(startNum))")
       }
     }
   }
@@ -105,20 +105,20 @@ struct PrimeCountView: View {
     VStack {
       HStack {
         Button("-Step") {
-//          startNum -= primeDisplay.numInterval
+          //          startNum -= primeDisplay.numInterval
           startNum -= Double(cellCount);
         }
         Button("Zero") {
           startNum = 0
         }
         Button("+Step") {
-//          startNum += primeDisplay.numInterval
+          //          startNum += primeDisplay.numInterval
           stepAction()
         }
       }
     }
     .buttonStyle(.bordered)
-    .font(.system(size: 28))
+//    .font(.system(size: 28))
   }
   
   func drawGridCountPrimes(
@@ -131,7 +131,7 @@ struct PrimeCountView: View {
       drawGrid(context: context, size: size)
       
       let lineWidth = primeDisplay.lineWidth
-//      let cellWidth = primeDisplay.cellWidth
+      //      let cellWidth = primeDisplay.cellWidth
       
       var primes: [Int] = []
       var primeSet: Set<Int> = []
@@ -158,7 +158,7 @@ struct PrimeCountView: View {
         }
       }
       //    print("primes", primes)
-//      print("start", start, "stop", stop, "primeCount", primeCount)
+      //      print("start", start, "stop", stop, "primeCount", primeCount)
       return (cellCount, primeCount, nx, ny)
     }
   
@@ -222,9 +222,9 @@ struct PrimeCountView: View {
       ny -= 1;
       let cellCount = nx * ny;
       
-//      print("drawGrid cellCount", cellCount)
+      //      print("drawGrid cellCount", cellCount)
       
       return (cellCount, xmargin, ymargin, nx, ny, cellWidth);
     }
 }
-  
+
