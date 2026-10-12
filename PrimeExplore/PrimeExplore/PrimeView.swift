@@ -68,6 +68,7 @@ struct PrimeCountView: View {
         }
         controlsBottom()
       }
+      .padding(5)
       .onAppear {
         //      print("onAppear countUI", countUI)
       }
