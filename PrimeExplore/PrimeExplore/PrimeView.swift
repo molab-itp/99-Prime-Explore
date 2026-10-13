@@ -50,7 +50,7 @@ struct PrimeCountView: View {
             startNum: startNum )
           let seconds = timeline.date.timeIntervalSince(lastUpdateDate)
           if seconds > animInterval {
-            print(timeline.date)
+//            print(timeline.date)
             Task {
               self.lastUpdateDate = timeline.date
               // must defer setting with Task
@@ -82,7 +82,7 @@ struct PrimeCountView: View {
         Text("n primes:\(primeCount)")
         if cellCount != 0 {
           let density = Double(primeCount)/Double(cellCount);
-          Text(String(format: "d: %.2f", density))
+          Text(String(format: "d: %.4f", density))
         }
       }
       HStack {
