@@ -10,7 +10,7 @@ v1.002
 in v1-p5js 
 remove New Palette/Twins toggle
 
-v1.002
+v1.003
 in v1-p5js 
 update is happending too fast.
 Should be match:
