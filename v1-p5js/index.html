@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PrimeExplore</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+  </head>
+  <body>
+    <div id="controlsTop">
+      <div class="row">
+        <span id="gridText">grid 0x0=0</span>
+        <span id="primeText">n primes:0</span>
+        <span id="densityText"></span>
+      </div>
+      <div class="row spread">
+        <span id="startText">Start: 0</span>
+        <div class="segmented">
+          <button id="modePalette" class="selected">Palette</button>
+          <button id="modeCount">Twins</button>
+        </div>
+        <div class="segmented">
+          <button id="autoOff" class="selected">Off</button>
+          <button id="autoOn">On</button>
+        </div>
+      </div>
+    </div>
+    <div id="canvasHolder"></div>
+    <div id="controlsBottom">
+      <div class="row">
+        <button id="stepMinus">-Step</button>
+        <button id="zero">Zero</button>
+        <button id="stepPlus">+Step</button>
+      </div>
+    </div>
+    <script src="isPrime.js"></script>
+    <script src="drawGrid.js"></script>
+    <script src="drawPalettePrimes.js"></script>
+    <script src="drawCountPrimes.js"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>
