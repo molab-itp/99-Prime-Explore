@@ -1,7 +1,8 @@
 // sketch.js
 // p5.js port of PrimeExplore (SwiftUI) PrimeCountView
 
-const animInterval = 0.5; // update interval in seconds
+const animInterval = 3.0; // update interval in seconds
+// const animInterval = 0.5; // update interval in seconds
 
 let startNum = 0;
 let cellCount = 0;
@@ -15,11 +16,21 @@ function setup() {
   let holder = select('#canvasHolder');
   let cnv = createCanvas(holder.width, holder.height);
   cnv.parent(holder);
-  frameRate(30);
+  // match SwiftUI TimelineView(.animation(minimumInterval: animInterval))
+  frameRate(1 / animInterval);
 
-  select('#stepMinus').mouseClicked(() => (startNum -= cellCount));
-  select('#zero').mouseClicked(() => (startNum = 0));
-  select('#stepPlus').mouseClicked(stepAction);
+  select('#stepMinus').mouseClicked(() => {
+    startNum -= cellCount;
+    redraw();
+  });
+  select('#zero').mouseClicked(() => {
+    startNum = 0;
+    redraw();
+  });
+  select('#stepPlus').mouseClicked(() => {
+    stepAction();
+    redraw();
+  });
 
   segmented('#autoOff', '#autoOn', (on) => (autoStep = on));
 }

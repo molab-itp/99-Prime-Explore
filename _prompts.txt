@@ -7,5 +7,13 @@ and other as yet created subfolders
 https://molab-itp.github.io/99-Prime-Explore/v1-p5js/
 
 v1.002
-in v1-p4js 
+in v1-p5js 
 remove New Palette/Twins toggle
+
+v1.002
+in v1-p5js 
+update is happending too fast.
+Should be match:
+let animInterval = 0.5; // update interval in seconds
+>> slow down
+const animInterval = 3.0; // update interval in seconds
