@@ -9,7 +9,6 @@ let primeCount = 0;
 let nx = 0;
 let ny = 0;
 let autoStep = false;
-let drawMode = 'palette'; // 'palette' | 'count'
 let lastUpdateTime = 0;
 
 function setup() {
@@ -23,9 +22,6 @@ function setup() {
   select('#stepPlus').mouseClicked(stepAction);
 
   segmented('#autoOff', '#autoOn', (on) => (autoStep = on));
-  segmented('#modeCount', '#modePalette', (palette) => {
-    drawMode = palette ? 'palette' : 'count';
-  });
 }
 
 function segmented(offId, onId, setter) {
@@ -45,8 +41,7 @@ function segmented(offId, onId, setter) {
 
 function draw() {
   background(255);
-  let drawFn = drawMode == 'palette' ? drawPalettePrimes : drawCountPrimes;
-  let res = drawFn(width, height, startNum);
+  let res = drawPalettePrimes(width, height, startNum);
 
   let seconds = millis() / 1000 - lastUpdateTime;
   if (seconds > animInterval) {
