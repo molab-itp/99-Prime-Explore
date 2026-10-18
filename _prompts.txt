@@ -5,3 +5,7 @@ setup for deploy to github pages from v1-p5js,
 and other as yet created subfolders
 
 https://molab-itp.github.io/99-Prime-Explore/v1-p5js/
+
+v1.002
+in v1-p4js 
+remove New Palette/Twins toggle
